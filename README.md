@@ -20,4 +20,6 @@ Add a `<script>` to your `index.html`:
 ```
 
 ## Usage
-See https://github.com/goodow/realtime-channel/blob/master/src/main/resources/web/index.html
+See https://github.com/goodow/realtime-web-playground/blob/master/app/bus.html
+
+You can try out the Goodow Realtime Channel API Playground on its [live instance](http://realtimeplayground.goodow.com/bus.html).
