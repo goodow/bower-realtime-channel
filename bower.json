@@ -3,17 +3,16 @@
   "version": "0.5.5",
   "main": "./realtime-channel.js",
   "dependencies": {
-    "bower-sockjs-client": "0.3.4"
+    "paho-mqtt": "master"
   },
   "homepage": "https://github.com/goodow/bower-realtime-channel",
   "authors": [
     "Larry Tin <dev@goodow.com>"
   ],
-  "description": "Event bus client over WebSocket for Java/Android/iOS/Javascript/GWT/J2ObjC",
+  "description": "Event bus client over MQTT",
   "keywords": [
     "EventBus",
-    "WebSocket",
-    "GWT"
+    "MQTT"
   ],
   "license": "Apache 2.0"
 }
