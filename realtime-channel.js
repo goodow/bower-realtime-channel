@@ -85,12 +85,12 @@ realtime.channel = realtime.channel || {};
       var payloadString = e.payloadString;
       var topic = e.destinationName;
       var message = JSON.parse(payloadString);
-      if (message.error) {
-        console.error("Error received on connection: " + message.error);
+      if (message["error"]) {
+        console.error("Error received on connection: " + message["error"]);
         return;
       }
-      message.topic = topic;
-      var replyTopic = message.replyTopic;
+      message["topic"] = topic;
+      var replyTopic = message["replyTopic"];
       if (replyTopic) {
         message.reply = function(reply, replyHandler) {
           // Send back reply
@@ -111,7 +111,7 @@ realtime.channel = realtime.channel || {};
         if (handler) {
           delete replyHandlers[topic];
           mqtt.unsubscribe(topic);
-          handler({result: message, failed: false});
+          handler({"result": message});
         }
       }
     };
@@ -120,10 +120,16 @@ realtime.channel = realtime.channel || {};
       checkSpecified("topic", 'string', topic);
       checkSpecified("replyHandler", 'function', replyHandler, true);
       checkOpen();
-      var msg = {send: send, payload: payload};
+      var msg = {};
+      if (send) {
+        msg["send"] = true;
+      }
+      if (payload) {
+        msg["payload"] = payload;
+      }
       if (replyHandler) {
         var replyTopic = makeUUID();
-        msg.replyTopic = replyTopic;
+        msg["replyTopic"] = replyTopic;
         replyHandlers[replyTopic] = replyHandler;
         mqtt.subscribe(replyTopic);
       }
