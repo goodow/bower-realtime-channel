@@ -86,7 +86,7 @@ realtime.channel = realtime.channel || {};
       var topic = e.destinationName;
       var message = JSON.parse(payloadString);
       if (message["error"]) {
-        console.error("Error received on connection: " + message["error"]);
+        console.error("Error received: " + JSON.stringify(message["error"]));
         return;
       }
       message["topic"] = topic;
