@@ -134,6 +134,7 @@
       };
 
       bus.onclose = function(responseObject) {
+        bus = null;
         $("#status_info").text("Not connected");
         console.log("Closed at: " + new Date().toString());
         console.error("errorCode(" + responseObject.errorCode + "): " + responseObject.errorMessage);
@@ -169,6 +170,14 @@
     });
   });
 
+  window.handler = function(messageOrAsyncResult) {
+    if (messageOrAsyncResult.failed) {
+      console.log('failed');
+      return;
+    }
+    window.msg = messageOrAsyncResult.result ? messageOrAsyncResult.result : messageOrAsyncResult;
+    console.log(JSON.stringify(msg, null, 2));
+  };
 </script>
 <a href="https://github.com/goodow/bower-realtime-channel"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
 </body>
