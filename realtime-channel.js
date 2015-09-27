@@ -128,7 +128,7 @@ realtime.channel = realtime.channel || {};
         msg["payload"] = payload;
       }
       if (replyHandler) {
-        var replyTopic = makeUUID();
+        var replyTopic = makeUUID(topic);
         msg["replyTopic"] = replyTopic;
         replyHandlers[replyTopic] = replyHandler;
         mqtt.subscribe(replyTopic);
@@ -153,8 +153,11 @@ realtime.channel = realtime.channel || {};
       }
     }
 
-    function makeUUID(){return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
-        .replace(/[xy]/g,function(a,b){return b=Math.random()*16,(a=="y"?b&3|8:b|0).toString(16)})}
+    function makeUUID(topic){
+        var id = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+            .replace(/[xy]/g,function(a,b){return b=Math.random()*16,(a=="y"?b&3|8:b|0).toString(16)});
+        return "reply/" + id + "/" + topic;
+    }
   
   };
   
