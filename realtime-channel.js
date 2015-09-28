@@ -23,17 +23,17 @@ realtime.channel = realtime.channel || {};
     that.onopen = null;
     that.onclose = null;
 
-    that.send = function(topic, payload, replyHandler) {
-      sendOrPub(true, topic, payload, replyHandler)
+    that.send = function(topic, payload, options, replyHandler) {
+      sendOrPub(true, topic, payload, options, replyHandler)
     };
   
-    that.publish = function(topic, payload) {
-      sendOrPub(false, topic, payload, null)
+    that.publish = function(topic, payload, options) {
+      sendOrPub(false, topic, payload, options, null)
     };
   
     that.subscribe = function(topic, handler) {
-      checkSpecified("topic", 'string', topic);
-      checkSpecified("handler", 'function', handler);
+      checkSpecified("topic", "string", topic);
+      checkSpecified("handler", "function", handler);
       checkOpen();
       var handlers = handlerMap[topic];
       if (!handlers) {
@@ -116,7 +116,11 @@ realtime.channel = realtime.channel || {};
       }
     };
 
-    function sendOrPub(send, topic, payload, replyHandler) {
+    function sendOrPub(send, topic, payload, options, replyHandler) {
+      if (replyHandler === undefined && typeof options == "function") {
+        replyHandler = options;
+        options = null;
+      }
       checkSpecified("topic", 'string', topic);
       checkSpecified("replyHandler", 'function', replyHandler, true);
       checkOpen();
@@ -126,6 +130,9 @@ realtime.channel = realtime.channel || {};
       }
       if (payload) {
         msg["payload"] = payload;
+      }
+      if (options) {
+        msg["options"] = options;
       }
       if (replyHandler) {
         var replyTopic = makeUUID(topic);
