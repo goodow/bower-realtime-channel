@@ -5,10 +5,10 @@ realtime.channel = realtime.channel || {};
   factory(Paho.MQTT);
 }(function(Mqtt) {
 
-  realtime.channel.Bus = function(host, port) {
+  realtime.channel.Bus = function(host, port, clientId, userName, password) {
   
     var that = this;
-    var mqtt = new Mqtt.Client(host, port, "web_" + parseInt(Math.random() * 100));
+    var mqtt = new Mqtt.Client(host, port, clientId);
     var onConnect = function() {
       state = realtime.channel.Bus.OPEN;
       if (that.onopen) {
@@ -16,7 +16,7 @@ realtime.channel = realtime.channel || {};
       }
     };
     var state = realtime.channel.Bus.CONNECTING;
-    mqtt.connect({onSuccess:onConnect});
+    mqtt.connect({onSuccess:onConnect, userName: userName, password: password});
     var handlerMap = {};
     var replyHandlers = {};
 
