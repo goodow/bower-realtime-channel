@@ -84,7 +84,8 @@ realtime.channel = realtime.channel || {};
     mqtt.onMessageArrived = function(e) {
       var payloadString = e.payloadString;
       var topic = e.destinationName;
-      var message = JSON.parse(payloadString);
+      var message = {};
+      message['payload'] = JSON.parse(payloadString);
       if (message["error"]) {
         console.error("Error received: " + JSON.stringify(message["error"]));
         return;
